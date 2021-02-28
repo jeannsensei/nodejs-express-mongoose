@@ -53,5 +53,6 @@ mongoose
  */
 app.use('/', require('./routes/User'));
 app.use('/login', require('./routes/Login'));
+app.use('/books', require('./routes/Books'));
 
 module.exports = router;
