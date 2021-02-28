@@ -17,6 +17,17 @@ const connectionParams = {
   useUnifiedTopology: true,
 };
 /**
+ *
+ * Para iniciar el servidor
+ * * nodemon server.js localhost 8080
+ * ? https://www.npmjs.com/package/nodemon
+ */
+function startServer() {
+  app.listen(port, () => {
+    console.log(`Listening on ${port}`);
+  });
+}
+/**
  * Al momento de hacer este proyecto, mongoose tiene un bug extraño por lo que toca utilizar la versión 5.11.15
  */
 mongoose
@@ -29,21 +40,11 @@ mongoose
   .catch((err) => {
     console.error(`Error connecting to the database. \n${err}`);
   });
-/**
- *
- * Para iniciar el servidor
- * * nodemon server.js localhost 8080
- * ? https://www.npmjs.com/package/nodemon
- */
-function startServer() {
-  app.listen(port, () => {
-    console.log(`Listening on ${port}`);
-  });
-}
 
 /**
  * Rutas
  */
 app.use('/', require('./routes/User'));
+app.use('/login', require('./routes/Login'));
 
 module.exports = router;

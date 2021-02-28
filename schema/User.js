@@ -25,7 +25,7 @@ let userSchema = new mongoose.Schema({
   salt: String,
 });
 /**
- * https://www.loginradius.com/blog/async/password-hashing-with-nodejs/
+ * Password hashing - https://www.loginradius.com/blog/async/password-hashing-with-nodejs/
  */
 
 // Method to set salt and hash the password for a user

@@ -1,7 +1,39 @@
 const User = require('../schema/User');
 
 class userService {
-  userLogin() {}
+  /**
+   * Funcion para loggear el usuario
+   * Se chequea que llegue email y password para verificar
+   * si existe el usuario y loggearlo
+   * @param {*} req Request
+   * @param {*} res Response
+   */
+  userLogin(req, res) {
+    // Find user with requested email
+    if (req.body.email && req.body.password) {
+      User.findOne({ email: req.body.email }, (err, user) => {
+        if (user === null) {
+          return res.status(400).send({
+            message: 'Usuario no encontrado.',
+          });
+        } else {
+          if (user.validPassword(req.body.password)) {
+            return res.status(201).send({
+              message: 'Usuario loggeado',
+            });
+          } else {
+            return res.status(400).send({
+              message: 'Contraseña incorrecta',
+            });
+          }
+        }
+      });
+    } else {
+      res
+        .status(400)
+        .json({ error: 'Faltan parámetros en el body', sent: req.body });
+    }
+  }
   /**
    * Trae toda la lista de usuarios
    */
@@ -14,13 +46,14 @@ class userService {
    * Chequea si el usuario existe en la base de datos
    * @param {string} name
    * @param {string} email
-   * @param {*} res
+   * @param {*} req Request
+   * @param {*} res Response
    * @param {*} next
    */
   findIfUserExists(req, res, next) {
-    const { name, email } = req.body;
+    const { name, email, password } = req.body;
     // https://stackoverflow.com/questions/35833176/node-js-check-if-field-exists-in-mongo-db
-    if (name && email) {
+    if (name && email && password) {
       User.findOne({ name, email }, (err, user) => {
         // handle err..
         if (user) {
@@ -29,13 +62,14 @@ class userService {
           next();
         } else {
           // En caso de que no exista
-          this.userSignup(name, email, res, next);
+          this.userSignup(name, email, password, res, next);
         }
       });
     } else {
       res
         .status(400)
         .json({ error: 'Faltan parámetros en el body', sent: req.body });
+      next();
     }
   }
   /**
@@ -45,15 +79,17 @@ class userService {
    * @param {*} res
    * @param {*} next
    */
-  userSignup(name, email, res, next) {
-    User.init(); // <- document gets generated
+  userSignup(name, email, password, res, next) {
+    let newUser = new User(); // <- document gets generated
     // Datos del usuario
-    const user = new User({
-      name: name,
-      email: email,
-    });
+    // Initialize newUser object with request data
+    (newUser.name = name),
+      (newUser.email = email),
+      (newUser.password = password);
+    // Call setPassword function to hash password
+    newUser.setPassword(password);
     // Creación del usuario en la base de datos
-    user
+    newUser
       .save()
       .then((doc) => {
         console.log(doc);

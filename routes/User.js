@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 const express = require('express');
-const app = express();
 const router = express.Router();
 // Clase
 const UserService = require('../services/UserService');
