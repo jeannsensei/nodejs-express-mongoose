@@ -3,14 +3,6 @@ const express = require('express');
 const router = express.Router();
 // Clase
 const UserService = require('../services/UserService');
-
-/**
- * ? Multer - para manejar formdata
- * * https://www.npmjs.com/package/multer
- * ? nodemailer - para enviar correos
- * * https://www.w3schools.com/nodejs/nodejs_email.asp
- */
-
 /**
  * * Manejar rutas en un solo archivo
  * https://stackoverflow.com/questions/45102662/node-js-multiple-routes-in-single-router-file

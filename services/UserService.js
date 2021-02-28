@@ -1,5 +1,7 @@
 const User = require('../schema/User');
 
+const TokenService = require('./TokenService');
+
 class userService {
   /**
    * Funcion para loggear el usuario
@@ -9,17 +11,24 @@ class userService {
    * @param {*} res Response
    */
   userLogin(req, res) {
+    const userProps = {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+    };
     // Find user with requested email
-    if (req.body.email && req.body.password) {
-      User.findOne({ email: req.body.email }, (err, user) => {
+    if (userProps.email && userProps.password) {
+      User.findOne({ email: userProps.email }, (err, user) => {
         if (user === null) {
           return res.status(400).send({
             message: 'Usuario no encontrado.',
           });
         } else {
-          if (user.validPassword(req.body.password)) {
+          if (user.validPassword(userProps.password)) {
+            const token = TokenService.generateJSWToken(userProps);
             return res.status(201).send({
               message: 'Usuario loggeado',
+              token: token,
             });
           } else {
             return res.status(400).send({

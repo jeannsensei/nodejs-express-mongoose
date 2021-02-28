@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
-const { port, atlas_url } = require('./config');
+const { port, atlas_url, token_secret } = require('./config');
 const mongoose = require('mongoose');
-// const bodyParser = require('body-parser');
 const express = require('express');
 
 const router = express.Router();
@@ -16,6 +15,14 @@ const connectionParams = {
   useCreateIndex: true,
   useUnifiedTopology: true,
 };
+/**
+ * ? Multer - para manejar formdata
+ * * https://www.npmjs.com/package/multer
+ * ? nodemailer - para enviar correos
+ * * https://www.w3schools.com/nodejs/nodejs_email.asp
+ * https://github.com/LoginRadius/engineering-blog-samples/pull/39/commits/f2199c2fb26ad5b43bf988b3e8f8c51482e5b9e0
+ */
+
 /**
  *
  * Para iniciar el servidor
