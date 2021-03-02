@@ -14,4 +14,5 @@ module.exports = {
   port: process.env.PORT,
   atlas_url: process.env.ATLAS_URL,
   token_secret: process.env.ACCESS_TOKEN_SECRET,
+  node_env: process.env.NODE_ENV,
 };

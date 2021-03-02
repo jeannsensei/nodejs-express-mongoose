@@ -19,8 +19,6 @@ class userService {
     // Find user with requested email
     if (userProps.email && userProps.password) {
       User.findOne({ email: userProps.email }, (err, user) => {
-        console.log(user);
-
         if (user === null) {
           return res.status(400).send({
             message: 'Usuario no encontrado.',

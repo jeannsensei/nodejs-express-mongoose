@@ -16,9 +16,10 @@ class tokenService {
     const accessToken = jwt.sign(
       { name: user.name, email: user.email },
       token_secret,
-      { expiresIn: '10m' }
+      { expiresIn: '1d' }
     );
     // Creación del token en la base de datos
+    // * https://stackoverflow.com/questions/439630/create-a-date-with-a-set-timezone-without-using-a-string-representation
     new Token({
       token: accessToken,
       date: new Date().toLocaleString('en-US', { timeZone: 'America/Bogota' }),
