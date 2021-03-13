@@ -1,5 +1,6 @@
 const LocationAction = require('../actions/location');
 const { Location } = require('../schema/Employee');
+const TokenService = require('../services/TokenService');
 
 exports.registerLocation = async (req, res, next) => {
   try {
@@ -13,11 +14,17 @@ exports.registerLocation = async (req, res, next) => {
   }
 };
 
+/**
+ * @param {Request} req The date
+ * @param {Response} res The string
+ */
 exports.getAllLocations = async (req, res) => {
+  const user = await TokenService.getUserInfoFromToken(req);
+  // console.log(req.headers.authorization);
   try {
-    await Location.find({}).then((locations) => {
+    await Location.find({ createdBy: user._id }).then((locations) => {
       console.log(locations);
-      res.status(200).send({ status: 'success', location: locations });
+      res.status(200).send({ location: locations });
     });
   } catch (error) {
     console.log(error);

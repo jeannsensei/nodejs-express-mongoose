@@ -18,4 +18,9 @@ module.exports = {
   cloudinary_cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   cloudinary_api_key: process.env.CLOUDINARY_API_KEY,
   cloudinary_api_secret: process.env.CLOUDINARY_API_SECRET,
+  local_mongo_user: process.env.MONGO_USERNAME,
+  local_mongo_password: process.env.MONGO_PASSWORD,
+  local_mongo_hostname: process.env.MONGO_HOSTNAME,
+  local_mongo_port: process.env.MONGO_PORT,
+  local_mongo_db: process.env.MONGO_DB,
 };

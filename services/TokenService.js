@@ -12,9 +12,10 @@ class tokenService {
    * @param {*} user Objeto del usuario que contiene nombre, email y password (no necesario aqui)
    */
   generateJSWToken(user) {
+    console.log(user._id);
     //
     const accessToken = jwt.sign(
-      { name: user.name, email: user.email },
+      { name: user.name, email: user.email, _id: user._id },
       token_secret,
       { expiresIn: '1d' }
     );
@@ -36,7 +37,6 @@ class tokenService {
       const token = authHeader.split(' ')[1];
       // Se chequea el token
       jwt.verify(token, token_secret, (err, user) => {
-        console.log(user);
         if (err) {
           return res.status(403).send({
             message: 'No tienes acceso.',
@@ -48,6 +48,24 @@ class tokenService {
     } else {
       return res.status(403).send({
         message: 'No se encontró token.',
+      });
+    }
+  }
+  /**
+   * Retorna la informacion del token
+   * @param {Request} req
+   * @param {Response} res
+   */
+  async getUserInfoFromToken(req) {
+    // Token en el header
+    const authHeader = req.headers.authorization;
+    if (authHeader) {
+      const token = authHeader.split(' ')[1];
+      // Se chequea el token
+      // TODO: Chequear si el token existe en la base de datos
+      return await jwt.verify(token, token_secret, (err, user) => {
+        console.log(user);
+        return user;
       });
     }
   }

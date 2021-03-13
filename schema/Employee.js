@@ -17,7 +17,15 @@ const EmployeeSchema = new mongoose.Schema({
 });
 
 const LocationSchema = new mongoose.Schema({
-  location: String,
+  location: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  createdBy: {
+    type: String,
+    required: true,
+  },
 });
 
 const Employee = mongoose.model('Employee', EmployeeSchema, 'employees');

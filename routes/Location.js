@@ -5,7 +5,7 @@ const router = Router();
 const LocationService = require('../services/LocationService');
 const TokenService = require('../services/TokenService');
 
-router.get('/', LocationService.getAllLocations);
+router.get('/', TokenService.verifyJSWToken, LocationService.getAllLocations);
 // Employee API
 router.post(
   '/create',

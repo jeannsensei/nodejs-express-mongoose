@@ -25,7 +25,7 @@ class userService {
           });
         } else {
           if (user.validPassword(userProps.password)) {
-            const token = TokenService.generateJSWToken(userProps);
+            const token = TokenService.generateJSWToken(user);
             return res.status(201).send({
               message: 'Usuario loggeado',
               token: token,
